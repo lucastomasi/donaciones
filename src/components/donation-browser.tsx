@@ -19,11 +19,13 @@ export function DonationBrowser({
   result,
   mode,
   donorName,
+  dense = false,
 }: {
   filters: Filters;
   result: PageResult;
   mode: "home" | "donor";
   donorName?: string;
+  dense?: boolean;
 }) {
   const navigate = useNavigate();
   const includeDonor = mode === "home";
@@ -65,7 +67,50 @@ export function DonationBrowser({
     });
   }
 
-  return (
+  return dense ? (
+    <section className="flex h-full min-h-0 flex-col gap-2">
+      <form action={action} method="get" onSubmit={onSubmit} className="grid shrink-0 grid-cols-[minmax(0,1fr)_6.5rem_auto] gap-1.5">
+        <input name="q" defaultValue={filters.q} placeholder="Nombre o mensaje" className={`${fieldClass} h-8`} />
+        <select
+          name="sort"
+          defaultValue={filters.sort}
+          onChange={(event) => event.currentTarget.form?.requestSubmit()}
+          className={`${fieldClass} h-8 px-2 text-xs`}
+        >
+          <option value="reciente">Recientes</option>
+          <option value="antigua">Antiguas</option>
+          <option value="mayor">Mayor</option>
+          <option value="menor">Menor</option>
+        </select>
+        {filters.min !== null ? <input type="hidden" name="min" value={filters.min} /> : null}
+        {includeDonor && filters.donor ? <input type="hidden" name="donor" value={filters.donor} /> : null}
+        <button type="submit" className={buttonClass("primary", "h-8 px-3")}>
+          Buscar
+        </button>
+      </form>
+      <div className="flex shrink-0 items-center justify-between gap-2 text-xs text-muted-foreground">
+        <p className="tabular-nums">{result.total === 0 ? "Sin resultados" : `${formatCount(result.total)} registros`}</p>
+        <a href={exportHref(filters)} className="font-medium text-primary underline-offset-2 hover:underline">
+          Exportar CSV
+        </a>
+      </div>
+      <ul className="min-h-0 flex-1 divide-y divide-border overflow-auto rounded-lg bg-background ring-1 ring-foreground/10">
+        {result.rows.map((row) => (
+          <li key={row.id} className="px-2 py-1.5">
+            <div className="flex items-baseline justify-between gap-2">
+              <Link to="/donante/$nombre" params={{ nombre: row.nombre }} className="truncate text-sm font-medium hover:text-primary">
+                {row.nombre}
+              </Link>
+              <Amount row={row} compact />
+            </div>
+            <p className="truncate text-xs text-muted-foreground">
+              {row.privado ? "Mensaje privado" : row.mensaje || "Sin mensaje"}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ) : (
     <section className="space-y-4">
       <form
         action={action}

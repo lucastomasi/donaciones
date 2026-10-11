@@ -33,7 +33,8 @@ export type GiftRow = {
   note?: string;
 };
 
-/** Kick gifted subs, "Mejores donadores de todos los tiempos" on the live chat. */
+/** Each gifted Kick membership is worth this many dollars, for every user. */
+export const GIFT_USD = 5;
 export const KICK_GIFTS: GiftRow[] = [
   { name: "raffsody", gifts: 76, archiveName: "soylucastomasi", note: "soylucastomasi en el archivo" },
   { name: "DAROPO", gifts: 13, archiveName: null },

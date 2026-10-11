@@ -12,17 +12,17 @@ export function ArchiveSummary({ meta }: { meta: ArchiveMeta }) {
       <Stat
         label="Donaciones"
         value={formatCount(meta.count)}
-        detail={`${formatCount(meta.listedCount)} en el listado público · ${formatCount(meta.refundedCount)} devueltas`}
+        detail="Las que quedaron en el listado"
       />
       <Stat
         label="En pesos"
         value={formatArs(meta.totalArs)}
-        detail={`Sin las ${formatCount(meta.refundedCount)} devoluciones (${formatArs(meta.refundedArs)})`}
+        detail="Suma de los aportes públicos"
       />
       <Stat
         label="Equivalente en dólares"
         value={formatUsd(meta.totalUsd)}
-        detail={`Campo interno de Ceneka, sin ${formatUsd(meta.refundedUsd)} devueltos`}
+        detail="Equivalente interno de Ceneka"
       />
       <Stat
         label="Donantes"
@@ -42,7 +42,7 @@ export function MiningReport({ meta }: { meta: ArchiveMeta }) {
       <SectionHead
         kicker="Minería"
         title="Qué se lee en los datos"
-        text="Nombres unificados, montos sin las devoluciones, y cuánto pesa quien más aporta."
+        text="Nombres unificados y cuánto pesa quien más aporta."
       />
       <div className="grid gap-3 md:grid-cols-2">
         <Finding
@@ -323,7 +323,7 @@ export function ArchiveDetails({ meta }: { meta: ArchiveMeta }) {
       <div className="grid gap-4 lg:grid-cols-2">
         <DonorBoard
           title="Quién más aportó"
-          description="Suma del equivalente en dólares, sin las devoluciones."
+          description="Suma del equivalente en dólares."
           rows={meta.topByUsd}
           metric={(row) => formatUsd(row.usd)}
           extra={(row) => `${formatCount(row.count)} donaciones · ${formatArs(row.ars)}`}

@@ -4,7 +4,7 @@ import { BrowserSkeleton, DonationBrowser } from "@/components/donation-browser"
 import { Badge, Card } from "@/components/ui";
 import { EMPTY_SEARCH, parseListSearch, toFilters, type ListSearch } from "@/lib/archive";
 import { getDonorPage } from "@/lib/archive.functions";
-import { KICK_GIFTS, POINT_BOARD } from "@/lib/chat-board";
+import { KICK_GIFTS, POINT_BOARD, GIFT_USD } from "@/lib/chat-board";
 import { formatArs, formatCount, formatUsd, formatWhen } from "@/lib/format";
 import { KICK_HANDLES } from "@/lib/identities";
 
@@ -96,6 +96,29 @@ function DonorPage() {
       <SiteFooter source="https://ceneka.net/losherederosdealberdi" />
     </div>
   );
+}
+
+function DonorSideNotes({ nameKey }: { nameKey: string }) {
+  const points = POINT_BOARD.find((row) => sameDonor(row.archiveName, nameKey));
+  const gifts = KICK_GIFTS.find((row) => sameDonor(row.archiveName, nameKey));
+  if (!points && !gifts) return null;
+  return (
+    <ul className="mt-4 flex flex-wrap gap-2">
+      {points ? <li><Badge>{formatCount(points.points)} palancoins</Badge></li> : null}
+      {gifts ? (
+        <li>
+          <Badge>
+            {formatCount(gifts.gifts)} regalos · {formatUsd(gifts.gifts * GIFT_USD)}
+          </Badge>
+        </li>
+      ) : null}
+    </ul>
+  );
+}
+
+function sameDonor(archiveName: string | null, nameKey: string) {
+  if (!archiveName) return false;
+  return archiveName.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase() === nameKey;
 }
 
 function MissingDonor() {

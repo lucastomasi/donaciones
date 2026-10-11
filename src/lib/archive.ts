@@ -17,6 +17,7 @@ export type DonorStat = {
   count: number;
   ars: number;
   usd: number;
+  giftUsd?: number;
 };
 
 export type Bracket = {
@@ -46,12 +47,51 @@ export type DonorProfile = DonorStat & {
   refundedCount: number;
   refundedArs: number;
   refundedUsd: number;
+  giftUsd: number;
 };
 
 export type ParetoStep = {
   label: string;
   donors: number;
   usdShare: number;
+};
+
+export type YoutubeVideo = {
+  id: string;
+  count: number;
+  usd: number;
+  donors: number;
+  title: string;
+  author: string;
+  href: string;
+};
+
+export type ChatRank = {
+  nombre: string;
+  count: number;
+  share: number;
+};
+
+export type ChatMine = {
+  named: ChatRank[];
+  funny: ChatRank[];
+  witty: ChatRank[];
+};
+
+export type BehaviorRow = {
+  key: string;
+  label: string;
+  count: number;
+  share: number;
+  usdShare: number;
+  avgArs: number;
+};
+
+export type Conducta = {
+  rows: BehaviorRow[];
+  habituales: number;
+  deClip: number;
+  deRelato: number;
 };
 
 export type Mining = {
@@ -66,6 +106,22 @@ export type Mining = {
   rawNames: number;
   modeArs: number;
   modeCount: number;
+  onceDonorShare: number;
+  onceUsdShare: number;
+  repeatUsdShare: number;
+  roundHundredShare: number;
+  fxMode: number;
+  fxModeShare: number;
+  halfUsdDonors: number;
+  eightyUsdDonors: number;
+  ladderShare: number;
+  smallCountShare: number;
+  smallUsdShare: number;
+  largeCountShare: number;
+  largeUsdShare: number;
+  loyalDonors: number;
+  loyalDonorShare: number;
+  loyalUsdShare: number;
   pareto: ParetoStep[];
 };
 
@@ -90,6 +146,19 @@ export type ArchiveMeta = {
   brackets: Bracket[];
   periods: PeriodPoint[];
   words: WordTerm[];
+  youtubeMessages: number;
+  linkMessages: number;
+  linkTotal: number;
+  youtubeLinks: number;
+  youtubeWatch: number;
+  youtubeShortlink: number;
+  youtubeShorts: number;
+  youtubeLive: number;
+  youtubeUnique: number;
+  youtubeOnce: number;
+  videos: YoutubeVideo[];
+  chat: ChatMine;
+  conducta: Conducta;
   mining: Mining;
 };
 
